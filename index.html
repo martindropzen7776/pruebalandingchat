@@ -98,66 +98,63 @@
   <div class="container">
     <div class="logo">
       <!-- Tu logo -->
-      <img src="https://via.placeholder.com/200x200.png?text=LOGO" alt="Logo">
+      <img src="avatar.jpeg" alt="Logo">
     </div>
 
-    <!-- CTA que abre el chat -->
-    <button class="cta-btn" id="openChat" aria-haspopup="dialog" aria-controls="tawk-chat">
-      💬 Hablar en vivo
-    </button>
 
     <div class="footer">
       <p>Toca el botón para crear una cuenta, y reclamar tu bono</p>
     </div>
   </div>
 
-  <!-- Start of Tawk.to Script -->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function(){
-      var s1=document.createElement("script"), s0=document.getElementsByTagName("script")[0];
-      s1.async=true;
-      s1.src='https://embed.tawk.to/68a35cf1d8c4f11928198fad/1j2v264mo';
-      s1.charset='UTF-8';
-      s1.setAttribute('crossorigin','*');
-      s0.parentNode.insertBefore(s1,s0);
-    })();
-  </script>
-  <!-- End of Tawk.to Script -->
+ <!-- Botón -->
+<button class="cta-btn" id="openChat" aria-haspopup="dialog">💬 Hablar en vivo</button>
 
-  <script>
-    // --- Abrir el chat SOLO cuando hacen clic en tu botón ---
-    // 1) Si ya cargó Tawk, engancha el click
-    function hookButton() {
-      var btn = document.getElementById('openChat');
-      if (!btn) return;
+<!-- Tawk embed (UNA sola vez) -->
+<script type="text/javascript">
+  var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+  (function(){
+    var s1=document.createElement("script"), s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68a35cf1d8c4f11928198fad/1j2v264mo';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+  })();
 
-      // Evita duplicar listeners si el script reintenta
-      if (btn.dataset.tawkHooked === '1') return;
+  // Ocultamos cualquier rastro del widget minificado por si el panel tarda
+  (function hideMinified(i){
+    var el = document.querySelector('#tawkchat-minified-wrapper, .tawk-min-container');
+    if (el) el.style.display = 'none';
+    if (i < 25) setTimeout(function(){ hideMinified(i+1); }, 200);
+  })(0);
 
-      btn.addEventListener('click', function(){
-        // Abre el widget directamente en modo chat (sin menú)
-        if (window.Tawk_API && typeof Tawk_API.maximize === 'function') {
-          Tawk_API.maximize();
-        }
-      });
-      btn.dataset.tawkHooked = '1';
-    }
+  // Enganchamos el botón para abrir SOLO cuando el user hace click
+  function hookOpen(){
+    var btn = document.getElementById('openChat');
+    if (!btn || btn.dataset.tawkHooked === '1') return;
+    btn.addEventListener('click', function(){
+      // Mostramos el widget (por si está oculto en Behavior) y lo abrimos maximizado
+      if (window.Tawk_API){
+        if (typeof Tawk_API.showWidget === 'function') Tawk_API.showWidget();
+        if (typeof Tawk_API.maximize   === 'function') Tawk_API.maximize();
+      }
+    });
+    btn.dataset.tawkHooked = '1';
+  }
 
-    // 2) En cuanto cargue el widget, volvemos a asegurar el hook
-    Tawk_API = window.Tawk_API || {};
-    Tawk_API.onLoad = function(){
-      // Opcional: si tenés Help Center, podés ocultarlo desde el panel (Content)
-      // Esto ayuda a que al abrir se muestre directamente la conversación.
-      hookButton();
-    };
+  // Cuando carga Tawk, aseguramos el hook y ocultamos el minificado
+  Tawk_API.onLoad = function(){
+    if (typeof Tawk_API.hideWidget === 'function') Tawk_API.hideWidget(); // burbuja fuera
+    hookOpen();
+  };
 
-    // 3) Fallback: reintentos suaves por si el widget demora
-    (function retryHook(i){
-      hookButton();
-      if (i < 25) setTimeout(function(){ retryHook(i+1); }, 200);
-    })(0);
-  </script>
+  // Fallback de reintentos por si el embed demora
+  (function retry(i){
+    hookOpen();
+    if (i < 25) setTimeout(function(){ retry(i+1); }, 200);
+  })(0);
+</script>
 
   <noscript>Por favor activá JavaScript para usar el chat en vivo.</noscript>
 </body>
