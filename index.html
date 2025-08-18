@@ -80,28 +80,25 @@
     &copy; 2025 Buffalo. Todos los derechos reservados.
   </footer>
 
-  <!-- Script de Tidio -->
-  <script src="//code.tidio.co/wfe2onlryyfkhh3ehskdzgrauvicjdz8.js" async></script>
+<button id="abrir-chat" class="cta">Abrir Chat en Vivo</button>
 
-  <script>
-    // Función para esperar a que Tidio esté listo
-    function onTidioReady(cb) {
-      if (window.tidioChatApi && window.tidioChatApi.open) return cb();
-      var i = setInterval(function () {
-        if (window.tidioChatApi && window.tidioChatApi.open) {
-          clearInterval(i);
-          cb();
-        }
-      }, 100);
-    }
+<script>
+  function onTidioReady(cb) {
+    if (window.tidioChatApi && window.tidioChatApi.open) return cb();
+    var i = setInterval(function () {
+      if (window.tidioChatApi && window.tidioChatApi.open) {
+        clearInterval(i);
+        cb();
+      }
+    }, 100);
+  }
 
-    // Click en el botón para abrir chat al instante
-    document.getElementById("abrir-chat").addEventListener("click", function () {
-      onTidioReady(function () {
-        try { window.tidioChatApi.show(); } catch(e) {}
-        window.tidioChatApi.open();
-      });
+  document.getElementById("abrir-chat").addEventListener("click", function(){
+    onTidioReady(function(){
+      try { window.tidioChatApi.show(); } catch(e){}
+      window.tidioChatApi.open(); // abre en modo grande
     });
-  </script>
+  });
+</script>
 </body>
 </html>
