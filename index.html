@@ -3,84 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Buffalo + Tidio</title>
+  <title>Lionel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1604325283684468');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1604325283684468&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XTL48C4Z98"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XTL48C4Z98');
+  </script>
+
+  <!-- CRISP Chat -->
+  <script type="text/javascript">
+    window.$crisp=[];window.CRISP_WEBSITE_ID="3171be89-7ea1-48a4-9161-ff1f96c5ad20";
+    (function(){
+      var d=document,s=d.createElement("script");
+      s.src="https://client.crisp.chat/l.js";
+      s.async=1;
+      d.getElementsByTagName("head")[0].appendChild(s);
+    })();
+  </script>
+
   <style>
-    body{margin:0;font-family:system-ui, -apple-system, Arial, sans-serif;background:#f6f6f6;color:#111}
-    header,footer{background:#111;color:#fff;text-align:center;padding:16px}
-    main{min-height:70dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}
-    h1{margin:0 0 8px}
-    p{max-width:640px;margin:0 auto 24px}
-    .cta{padding:14px 22px;border:none;border-radius:10px;background:#6c63ff;color:#fff;font-weight:700;cursor:pointer}
-    .cta:hover{background:#5548d6}
-    .note{font-size:12px;opacity:.7;margin-top:12px}
-    .logs{margin-top:16px;font-family:monospace;font-size:12px;background:#fff;border:1px solid #ddd;padding:12px;border-radius:8px;max-width:720px;width:100%;text-align:left;white-space:pre-wrap}
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #2196F3; /* Azul del fondo del logo */
+      text-align: center;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+
+    .avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      border: 4px solid white;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .cta-btn {
+      background-color: #000000; /* Negro del detalle */
+      color: white;
+      padding: 22px 40px;
+      font-size: 20px;
+      text-decoration: none;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      animation: pulse 2s infinite;
+      cursor: pointer;
+    }
+
+    .cta-btn:hover {
+      background-color: #1565C0; /* tono más oscuro del azul */
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .whatsapp-icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .footer {
+      margin-top: 35px;
+      font-size: 18px;
+    }
+
+    .footer p {
+      margin: 5px 0;
+      color: #FFFFFF;
+    }
+
+    .footer p:first-child {
+      font-weight: bold;
+      color: #FFEB3B; /* Amarillo claro para destacar */
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+    }
   </style>
 </head>
+
 <body>
-  <header><h1>Buffalo Landing</h1></header>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1766546837196355&ev=PageView&noscript=1" />
+  </noscript>
 
-  <main>
-    <h2>Chat en vivo al toque</h2>
-    <p>Botón propio que abre Tidio en grande, sin doble clic ni lag. Si no abre, mirá los logs abajo.</p>
-    <button id="abrir-chat" class="cta">Abrir Chat en Vivo</button>
-    <div id="logs" class="logs" hidden></div>
-    <div class="note">Tip: probalo servido por http (no file://). Por ejemplo: <code>python -m http.server 8080</code></div>
-  </main>
+  <div class="container">
+    <img src="avatar.jpeg" alt="Avatar" class="avatar">
+    <h1>ENVIANOS UN WHATSAPP PARA CREAR TU CUENTA</h1>
 
-  <footer>&copy; 2025 Buffalo</footer>
+    <!-- Botón: abre chat de Crisp -->
+    <button class="cta-btn" id="openChat">
+      <span>DUPLICAMOS TU PRIMERA CARGA!</span>
+      <img src="whatsapp.png" alt="WhatsApp" class="whatsapp-icon">
+    </button>
 
-  <!-- Script Tidio: usa SIEMPRE https (no protocol-relative) -->
-  <script src="https://code.tidio.co/wfe2onlryyfkhh3ehskdzgrauvicjdz8.js" async></script>
+    <div class="footer">
+      <p>100% EN TU PRIMERA CARGA!!</p>
+      <p>Mínimo de Carga $2000</p>
+      <p>Ruleta en Vivo - Slots - Apuestas Deportivas y Mucho más.</p>
+    </div>
+  </div>
 
   <script>
-    // --- util de logs para debug rápido ---
-    const $logs = document.getElementById("logs");
-    function log(msg){
-      $logs.hidden = false;
-      $logs.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
-      console.log(msg);
-    }
-
-    // Opción A: usar el evento oficial cuando Tidio esté listo
-    document.addEventListener("tidioChat-ready", function(){
-      log("Evento tidioChat-ready recibido.");
-      // opcional: autoabrir al cargar
-      try { window.tidioChatApi.show(); } catch(e){}
-      window.tidioChatApi.open();
+    document.getElementById('openChat').addEventListener('click', function(e){
+      e.preventDefault();
+      if (window.$crisp) {
+        $crisp.push(["do", "chat:open"]);
+      }
     });
-
-    // Fallback: polling por si el evento no dispara en algunos navegadores/ad-block
-    function onTidioReady(cb) {
-      if (window.tidioChatApi && typeof window.tidioChatApi.open === "function") return cb();
-      const start = Date.now();
-      const iv = setInterval(function(){
-        if (window.tidioChatApi && typeof window.tidioChatApi.open === "function") {
-          clearInterval(iv);
-          log("tidioChatApi disponible por polling.");
-          cb();
-        } else if (Date.now() - start > 15000) {
-          clearInterval(iv);
-          log("Timeout esperando tidioChatApi (posible ad-block o CSP).");
-        }
-      }, 100);
-    }
-
-    // Botón: abrir grande al primer clic
-    document.getElementById("abrir-chat").addEventListener("click", function(){
-      log("Click en Abrir Chat.");
-      onTidioReady(function(){
-        try { window.tidioChatApi.show(); } catch(e){ log("show() lanzó excepción (ignorable)."); }
-        window.tidioChatApi.open();
-        log("Se llamó a open().");
-      });
-    });
-
-    // Diagnóstico rápido de entorno
-    (function envCheck(){
-      const isFile = location.protocol === "file:";
-      log(`Protocolo: ${location.protocol}${isFile ? " (esto puede bloquear Tidio)" : ""}`);
-      if (isFile) log("Serví este archivo por http(s) para que cargue Tidio (localhost).");
-    })();
   </script>
 </body>
 </html>
