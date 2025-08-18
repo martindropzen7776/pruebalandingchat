@@ -1,104 +1,86 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buffalo Landing</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buffalo + Tidio</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    header {
-      background: #111;
-      color: #fff;
-      padding: 20px 40px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 60px 20px;
-    }
-    main h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-    main p {
-      font-size: 1.2rem;
-      margin-bottom: 40px;
-      max-width: 600px;
-    }
-    .cta {
-      padding: 14px 24px;
-      background: #6C63FF;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .cta:hover {
-      background: #5548d6;
-    }
-    footer {
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 15px;
-      font-size: 0.9rem;
-    }
+    body{margin:0;font-family:system-ui, -apple-system, Arial, sans-serif;background:#f6f6f6;color:#111}
+    header,footer{background:#111;color:#fff;text-align:center;padding:16px}
+    main{min-height:70dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}
+    h1{margin:0 0 8px}
+    p{max-width:640px;margin:0 auto 24px}
+    .cta{padding:14px 22px;border:none;border-radius:10px;background:#6c63ff;color:#fff;font-weight:700;cursor:pointer}
+    .cta:hover{background:#5548d6}
+    .note{font-size:12px;opacity:.7;margin-top:12px}
+    .logs{margin-top:16px;font-family:monospace;font-size:12px;background:#fff;border:1px solid #ddd;padding:12px;border-radius:8px;max-width:720px;width:100%;text-align:left;white-space:pre-wrap}
   </style>
 </head>
 <body>
-  <header>
-    <h1>Buffalo Landing</h1>
-  </header>
+  <header><h1>Buffalo Landing</h1></header>
 
   <main>
-    <h2>Tu negocio con impacto</h2>
-    <p>Una landing page simple, rápida y con chat en vivo para hablar con tus clientes sin complicaciones técnicas.</p>
+    <h2>Chat en vivo al toque</h2>
+    <p>Botón propio que abre Tidio en grande, sin doble clic ni lag. Si no abre, mirá los logs abajo.</p>
     <button id="abrir-chat" class="cta">Abrir Chat en Vivo</button>
+    <div id="logs" class="logs" hidden></div>
+    <div class="note">Tip: probalo servido por http (no file://). Por ejemplo: <code>python -m http.server 8080</code></div>
   </main>
 
-  <footer>
-    &copy; 2025 Buffalo. Todos los derechos reservados.
-  </footer>
+  <footer>&copy; 2025 Buffalo</footer>
 
-<button id="abrir-chat" class="cta">Abrir Chat en Vivo</button>
+  <!-- Script Tidio: usa SIEMPRE https (no protocol-relative) -->
+  <script src="https://code.tidio.co/wfe2onlryyfkhh3ehskdzgrauvicjdz8.js" async></script>
 
-<script>
-  function onTidioReady(cb) {
-    if (window.tidioChatApi && window.tidioChatApi.open) return cb();
-    var i = setInterval(function () {
-      if (window.tidioChatApi && window.tidioChatApi.open) {
-        clearInterval(i);
-        cb();
-      }
-    }, 100);
-  }
+  <script>
+    // --- util de logs para debug rápido ---
+    const $logs = document.getElementById("logs");
+    function log(msg){
+      $logs.hidden = false;
+      $logs.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+      console.log(msg);
+    }
 
-  document.getElementById("abrir-chat").addEventListener("click", function(){
-    onTidioReady(function(){
+    // Opción A: usar el evento oficial cuando Tidio esté listo
+    document.addEventListener("tidioChat-ready", function(){
+      log("Evento tidioChat-ready recibido.");
+      // opcional: autoabrir al cargar
       try { window.tidioChatApi.show(); } catch(e){}
-      window.tidioChatApi.open(); // abre en modo grande
+      window.tidioChatApi.open();
     });
-  });
-</script>
+
+    // Fallback: polling por si el evento no dispara en algunos navegadores/ad-block
+    function onTidioReady(cb) {
+      if (window.tidioChatApi && typeof window.tidioChatApi.open === "function") return cb();
+      const start = Date.now();
+      const iv = setInterval(function(){
+        if (window.tidioChatApi && typeof window.tidioChatApi.open === "function") {
+          clearInterval(iv);
+          log("tidioChatApi disponible por polling.");
+          cb();
+        } else if (Date.now() - start > 15000) {
+          clearInterval(iv);
+          log("Timeout esperando tidioChatApi (posible ad-block o CSP).");
+        }
+      }, 100);
+    }
+
+    // Botón: abrir grande al primer clic
+    document.getElementById("abrir-chat").addEventListener("click", function(){
+      log("Click en Abrir Chat.");
+      onTidioReady(function(){
+        try { window.tidioChatApi.show(); } catch(e){ log("show() lanzó excepción (ignorable)."); }
+        window.tidioChatApi.open();
+        log("Se llamó a open().");
+      });
+    });
+
+    // Diagnóstico rápido de entorno
+    (function envCheck(){
+      const isFile = location.protocol === "file:";
+      log(`Protocolo: ${location.protocol}${isFile ? " (esto puede bloquear Tidio)" : ""}`);
+      if (isFile) log("Serví este archivo por http(s) para que cargue Tidio (localhost).");
+    })();
+  </script>
 </body>
 </html>
