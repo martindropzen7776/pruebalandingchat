@@ -1,1 +1,107 @@
-ç
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buffalo Landing</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: #111;
+      color: #fff;
+      padding: 20px 40px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    main h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    main p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+    .cta {
+      padding: 14px 24px;
+      background: #6C63FF;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .cta:hover {
+      background: #5548d6;
+    }
+    footer {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Buffalo Landing</h1>
+  </header>
+
+  <main>
+    <h2>Tu negocio con impacto</h2>
+    <p>Una landing page simple, rápida y con chat en vivo para hablar con tus clientes sin complicaciones técnicas.</p>
+    <button id="abrir-chat" class="cta">Abrir Chat en Vivo</button>
+  </main>
+
+  <footer>
+    &copy; 2025 Buffalo. Todos los derechos reservados.
+  </footer>
+
+  <!-- Script de Tidio -->
+  <script src="//code.tidio.co/wfe2onlryyfkhh3ehskdzgrauvicjdz8.js" async></script>
+
+  <script>
+    // Función para esperar a que Tidio esté listo
+    function onTidioReady(cb) {
+      if (window.tidioChatApi && window.tidioChatApi.open) return cb();
+      var i = setInterval(function () {
+        if (window.tidioChatApi && window.tidioChatApi.open) {
+          clearInterval(i);
+          cb();
+        }
+      }, 100);
+    }
+
+    // Click en el botón para abrir chat al instante
+    document.getElementById("abrir-chat").addEventListener("click", function () {
+      onTidioReady(function () {
+        try { window.tidioChatApi.show(); } catch(e) {}
+        window.tidioChatApi.open();
+      });
+    });
+  </script>
+</body>
+</html>
