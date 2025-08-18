@@ -1,152 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IM CHINI MUSIC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '3680967698815307');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=3680967698815307&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-    
-    <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Landing con Chat en Vivo</title>
+  <style>
+    /* Overlay del modal */
+    .chat-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display: none; /* se activa al cargar */
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
     }
-
-    body, html {
-        height: 100%;
-        background-color: #c2c1ae;
+    /* Contenedor del chat centrado */
+    .chat-modal {
+      background: #111;
+      border-radius: 16px;
+      width: min(420px, 92vw);
+      height: min(72vh, 680px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      overflow: hidden;
+      position: relative;
     }
-
-    @font-face {
-        font-family: 'MiFuente';
-        src: url('mi-fuente.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
+    /* Botón cerrar */
+    .chat-close {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: rgba(255,255,255,.15);
+      border: 0;
+      color: #fff;
+      width: 36px; height: 36px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 18px;
     }
-
-    .landing {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        background-image: url('background.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+    /* Iframe del chat */
+    .chat-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
     }
-
-    .title {
-        font-family: 'MiFuente', sans-serif;
-        font-size: 80px;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-        color: white;
-        position: absolute;
-        top: 10%;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
+    body.modal-open {
+      overflow: hidden; /* evita scroll detrás del modal */
     }
-
-    .info {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 22px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: white;
-        position: absolute;
-        top: 75%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-    }
-
-    .date {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 18px;
-        color: white;
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-    }
-
-    .button {
-        position: absolute;
-        text-align: center;
-        width: 300px;
-        padding: 14px 24px;
-        top: 65%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 18px;
-        font-weight: bold;
-        font-family: 'Montserrat', sans-serif;
-        text-transform: uppercase;
-        color: #FFFFFF;
-        background: linear-gradient(135deg, #FF00AA, #FF6EC7); /* rosa neón degradado */
-        border: 2px solid transparent;
-        border-radius: 25px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.4s ease-in-out;
-        animation: zoomPulse 1.5s infinite;
-        gap: 10px; /* Espacio entre el texto y el icono */
-    }
-
-    .button:hover {
-        background: linear-gradient(135deg, #660000, #3d0000);
-        box-shadow: 0 0 18px rgba(255, 0, 170, 0.6);
-        transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .button:active {
-        transform: translate(-50%, -50%) scale(0.95);
-    }
-
-    @keyframes zoomPulse {
-        0% { transform: translate(-50%, -50%) scale(1); }
-        50% { transform: translate(-50%, -50%) scale(1.05); }
-        100% { transform: translate(-50%, -50%) scale(1); }
-    }
-
-.whatsapp-icon {
-    width: 20px;
-    height: 20px;
-}
-    </style>
+  </style>
 </head>
 <body>
-    <div class="landing">
-<a href="https://wa.me/5491168022271?text=Hola!%20Quiero%20free%20para%20el%20evento%20" class="button">
-    Obtener ticket free!
-    <img src="whatsapp.png" alt="WhatsApp" class="whatsapp-icon">
-</a>
+
+  <!-- Contenido normal de tu landing -->
+  <main>
+    <h1>Bienvenido a mi Landing</h1>
+    <p>Tu chat en vivo se abrirá en unos segundos...</p>
+  </main>
+
+  <!-- Modal con el chat centrado -->
+  <div class="chat-overlay" id="chatOverlay" role="dialog" aria-modal="true" aria-label="Chat en vivo">
+    <div class="chat-modal">
+      <button class="chat-close" id="chatClose" aria-label="Cerrar chat">✕</button>
+      <!-- Chat de Tawk.to en iframe -->
+      <iframe
+        class="chat-frame"
+        src="https://tawk.to/chat/68a35cf1d8c4f11928198fad/1j2v264mo?lang=es"
+        allow="microphone; camera"
+      ></iframe>
     </div>
+  </div>
+
+  <script>
+    const overlay = document.getElementById('chatOverlay');
+    const closeBtn = document.getElementById('chatClose');
+
+    function openChatModal() {
+      overlay.style.display = 'flex';
+      document.body.classList.add('modal-open');
+    }
+    function closeChatModal() {
+      overlay.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+
+    // Abrir automáticamente al cargar
+    window.addEventListener('DOMContentLoaded', openChatModal);
+
+    // Cerrar por botón, click en fondo o tecla ESC
+    closeBtn.addEventListener('click', closeChatModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeChatModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeChatModal();
+    });
+  </script>
+
 </body>
 </html>
