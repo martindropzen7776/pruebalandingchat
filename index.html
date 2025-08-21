@@ -207,7 +207,7 @@ function flujoSi(username){
 
 function afterTransfer(username, estado){
   setTimeout(()=>{
-    appendBubble('Perfecto. Tocá el botón para continuar con un asesor.', 'bot');
+    appendBubble('Perfecto. Tocá el botón para continuar con un asesor y RECLAMAR TU BONO!', 'bot');
     chatEl.appendChild(whatsButton(username, estado));
     chatEl.scrollTop = chatEl.scrollHeight;
   }, 200);
