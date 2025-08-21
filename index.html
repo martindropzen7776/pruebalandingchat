@@ -9,7 +9,6 @@
   :root{
     --bg:#0b0d10;
     --panel:#111418;
-    --panel-2:#0f1216;
     --text:#e8eaf0;
     --muted:#96a0af;
     --accent:#ea3a7a;
@@ -20,7 +19,7 @@
   html,body{height:100%}
   body{
     margin:0; background:var(--bg);
-    color:var(--text); font-family: 'Montserrat', sans-serif;
+    color:var(--text); font-family:'Montserrat',sans-serif;
     display:flex; align-items:center; justify-content:center; padding:24px;
   }
   .frame{width:100%; max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center}
@@ -28,7 +27,7 @@
   .trident{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:9px; background:linear-gradient(180deg, var(--accent), var(--accent-2)); color:white; font-weight:900}
   .brand{font-weight:800; letter-spacing:.08em}
 
-  /* HERO */
+  /* HERO (arriba del paso 1) */
   .hero{display:grid; justify-items:center; text-align:center; gap:14px; margin:20px 0 26px}
   .hero .badge{width:140px; height:140px; border-radius:50%; background:#1b100b; display:grid; place-items:center; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,.45), inset 0 0 0 6px #2a1a10}
   .hero .badge img{width:100%; height:100%; object-fit:cover}
@@ -41,8 +40,7 @@
     border:1px solid #222;
     border-radius:calc(var(--radius) + 6px);
     padding:22px; box-shadow:0 10px 30px rgba(0,0,0,.35);
-    text-align:left;
-    margin-bottom:20px;
+    text-align:left; margin-bottom:20px;
   }
   .card h2{margin:6px 0 16px; font-size:20px; font-weight:700; text-align:center}
   .field{margin-bottom:14px}
@@ -60,35 +58,38 @@
   .btn:disabled{opacity:.55; cursor:not-allowed}
   .center{display:flex; justify-content:center}
 
-  /* STEP 2 Chat */
+  /* STEP 2 — Chat estilo WhatsApp */
   .chat{display:none}
-  .chat-wrap{background:#ece5dd; border:1px solid #ccc; border-radius:var(--radius); overflow:hidden; box-shadow:0 12px 26px rgba(0,0,0,.4)}
-  .chat-header{padding:14px 16px; background:var(--accent); display:flex; align-items:center; gap:10px; border-bottom:1px solid #b72a55}
+  .chat-wrap{background:#ece5dd; border:1px solid #cfcfcf; border-radius:var(--radius); overflow:hidden; box-shadow:0 12px 26px rgba(0,0,0,.4)}
+  .chat-header{
+    padding:14px 16px; background:#075e54; /* WhatsApp verde */
+    display:flex; align-items:center; gap:10px; border-bottom:1px solid #064c43
+  }
   .status-dot{width:10px; height:10px; border-radius:50%; background:#25d366; box-shadow:0 0 10px #25d366}
-  .chat-title{font-weight:800; color:white}
+  .chat-title{font-weight:800; color:#fff}
   .chat-body{height:56vh; min-height:420px; max-height:66vh; padding:16px; overflow:auto; display:flex; flex-direction:column; gap:10px}
   .bubble{max-width:82%; padding:12px 14px; border-radius:16px; line-height:1.25; font-size:15px}
-  .bot{align-self:flex-start; background:#fff; border:1px solid #ddd; color:#111}
+  .bot{align-self:flex-start; background:#ffffff; border:1px solid #ddd; color:#111}
   .user{align-self:flex-end; background:#dcf8c6; border:1px solid #b2e59c; color:#111}
   .row{display:flex; gap:10px; flex-wrap:wrap}
-  .chip{border:1px solid #ccc; background:white; color:#111; padding:9px 14px; border-radius:999px; cursor:pointer; font-weight:700; font-size:14px}
-  .chip:hover{border-color:var(--accent)}
+  .chip{border:1px solid #ccc; background:#fff; color:#111; padding:9px 14px; border-radius:999px; cursor:pointer; font-weight:700; font-size:14px}
+  .chip:hover{border-color:#128c7e}
   .copy-box{display:flex; align-items:center; gap:10px; margin-top:8px}
   .code{background:#f5f5f5; border:1px dashed #bbb; padding:8px 10px; border-radius:8px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas; color:#111}
-  .whats-btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; background:linear-gradient(135deg, #7bffb8, #22c55e); color:#05210f; font-weight:900; border:1px solid #0c3b19; cursor:pointer; text-decoration:none; margin-top:10px}
-  .whats-icon{width:18px; height:18px; background:#05210f; color:#22c55e; display:grid; place-items:center; border-radius:50%; font-size:12px}
+  .whats-btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; background:#25d366; color:#05210f; font-weight:900; border:1px solid #128c7e; cursor:pointer; text-decoration:none; margin-top:10px}
+  .whats-icon{width:18px; height:18px; background:#05210f; color:#25d366; display:grid; place-items:center; border-radius:50%; font-size:12px}
 </style>
 </head>
 <body>
   <div class="frame">
     <div class="logo"><span class="trident">♆</span> <div class="brand">CASINO<span style="color:var(--accent)">ZEUS</span></div></div>
 
-    <!-- HERO -->
+    <!-- HERO (arriba del paso 1) -->
     <section class="hero">
       <div class="badge">
         <img src="avatar.jpeg" alt="Avatar"/>
       </div>
-      <h1>Segui los siguientes pasos<br/>para crear tu cuenta</h1>
+      <h1>Envíanos un WhatsApp<br/>para crear tu cuenta</h1>
       <div class="sub">100% en tu primera carga!!</div>
     </section>
 
@@ -99,17 +100,15 @@
         <label for="username">Nombre</label>
         <input id="username" class="input" type="text" placeholder="Ej: leonel" autocomplete="username" />
       </div>
-      <div class="center"><button id="goChat" class="btn" disabled>RECLAMA TU BONO</button></div>
+      <div class="center"><button id="goChat" class="btn" disabled>RECLAMÁ TU BONO</button></div>
     </section>
 
     <!-- STEP 2: Chat -->
-    <section id="step2" class="chat fade-in">
+    <section id="step2" class="chat">
       <div class="chat-wrap">
         <div class="chat-header">
           <div class="status-dot"></div>
-          <div>
-            <div class="chat-title">Asesor Juan</div>
-          </div>
+          <div><div class="chat-title">Asesor Juan</div></div>
         </div>
         <div id="chat" class="chat-body"></div>
       </div>
@@ -117,7 +116,6 @@
   </div>
 
 <script>
-const SBU_ALIAS = "Alias: zeus.pagos.arg";
 const NUMEROS_INFO = "CBU 2850590940090412345678 — ALIAS: zeus.pagos.arg";
 const WHATS_NUMBER = "5491122334455";
 
@@ -175,17 +173,26 @@ function whatsButton(username, estado){
   return a;
 }
 
+/* Primer mensaje: condiciones + ¿continuar? (solo Sí) */
 function bootChat(username){
   setTimeout(()=>{
-    appendBubble(`Hola ${username}, soy Juan. ¿Querés empezar?`, 'bot');
+    const condiciones =
+      `Hola ${username}, soy Juan.\n`+
+      `Condiciones:\n`+
+      `• Carga mínima: $2000\n`+
+      `• Retiros (con CVU) de 10 a 16 hs. ¡sin límites!\n`+
+      `• Atención las 24 horas\n\n`+
+      `¿Querés continuar?`;
+    appendBubble(condiciones, 'bot');
     chatEl.appendChild(chip('Sí', ()=> flujoSi(username)));
   }, 200);
 }
 
+/* Sí → CBU → ¿ya transferiste? → WhatsApp */
 function flujoSi(username){
   appendBubble('Sí', 'user');
   setTimeout(()=>{
-    appendBubble('Perfecto. Copiá estos números para cargar:', 'bot');
+    appendBubble('Perfecto. Copiá estos datos para cargar:', 'bot');
     chatEl.appendChild(copyBox(NUMEROS_INFO));
     setTimeout(()=>{
       appendBubble('¿Ya transferiste?', 'bot');
@@ -200,7 +207,7 @@ function flujoSi(username){
 
 function afterTransfer(username, estado){
   setTimeout(()=>{
-    appendBubble('Gracias por confirmar.', 'bot');
+    appendBubble('Perfecto. Tocá el botón para continuar con un asesor.', 'bot');
     chatEl.appendChild(whatsButton(username, estado));
     chatEl.scrollTop = chatEl.scrollHeight;
   }, 200);
