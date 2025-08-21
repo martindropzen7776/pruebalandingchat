@@ -186,12 +186,17 @@ function bootChat(username){
   setTimeout(()=>{
     const condiciones =
       `Hola ${username}, soy Juan.\n`+
-      `BONO DEL 100%\n`+
-      `• Carga mínima: $2000\n`+
-      `• Retiros (con CVU) de 10 a 16 hs. ¡sin límites!\n`+
+      `**BONO DEL 100%**\n`+
+      `• **Carga mínima:** $2000\n`+
+      `• Retiros: (con CVU) de 10 a 16 hs. **¡sin límites!**\n`+
       `• Atención las 24 horas\n\n`+
       `¿Querés continuar?`;
-    appendBubble(condiciones, 'bot');
+    // Usamos innerHTML para soportar <b>
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble bot';
+    bubble.innerHTML = condiciones.replace(/\*\*(.*?)\*\*/g,"<b>$1</b>");
+    chatEl.appendChild(bubble);
+
     chatEl.appendChild(chip('Sí', ()=> flujoSi(username)));
   }, 200);
 }
