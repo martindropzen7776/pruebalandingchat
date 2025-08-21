@@ -29,6 +29,14 @@
   .trident{width:28px; height:28px; display:inline-grid; place-items:center; border-radius:9px; background:linear-gradient(180deg, var(--accent), var(--accent-2)); color:white; font-weight:900}
   .brand{font-weight:800; letter-spacing:.08em}
 
+  /* HERO / INFO */
+  .hero{display:grid; justify-items:center; text-align:center; gap:14px; margin:10px 0 26px}
+  .hero .badge{width:130px; height:130px; border-radius:50%; background:#1b100b; display:grid; place-items:center; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,.45), inset 0 0 0 6px #2a1a10}
+  .hero .badge img{width:100%; height:100%; object-fit:cover}
+  .hero h1{font-size:22px; font-weight:900; letter-spacing:.02em; line-height:1.15; margin:0}
+  .hero .sub{color:#ffbf3a; font-weight:900; margin-top:8px}
+  .hero .list{color:var(--text); opacity:.92; font-size:16px; line-height:1.45}
+
   /* STEP 1 */
   .card{
     background:linear-gradient(180deg, rgba(234,58,122,.06), rgba(234,58,122,.02)) padding-box,
@@ -85,7 +93,22 @@
 </head>
 <body>
   <div class="frame">
-    <div class="logo"><span class="trident">♆</span> <div class="brand">CASINO<span style="color:var(--accent)">ZEUS</span></div></div>
+    <div class=\"logo\"><span class=\"trident\">♆</span> <div class=\"brand\">CASINO<span style=\"color:var(--accent)\">ZEUS</span></div></div>
+
+    <!-- HERO (sin botón, como la referencia) -->
+    <section class=\"hero\">
+      <div class=\"badge\">
+        <!-- Reemplazá el src con tu imagen -->
+        <img src=\"https://picsum.photos/200/200?random=7\" alt=\"Buffalo Royals\"/>
+      </div>
+      <h1>ENVÍANOS UN WHATSAPP<br/>PARA CREAR TU CUENTA</h1>
+      <div class=\"sub\">100% EN TU PRIMERA CARGA!!</div>
+      <div class=\"list\">
+        Mínimo de Carga $1000<br/>
+        Ruleta en Vivo – Slots –<br/>
+        Apuestas Deportivas y mucho más
+      </div>
+    </section>
 
     <!-- STEP 1: Usuario -->
     <section id="step1" class="card">
