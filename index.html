@@ -68,31 +68,32 @@
   .status-dot{width:10px; height:10px; border-radius:50%; background:#25d366; box-shadow:0 0 10px #25d366}
   .chat-title{font-weight:800; color:#fff}
   .chat-body{height:56vh; min-height:420px; max-height:66vh; padding:16px; overflow:auto; display:flex; flex-direction:column; gap:10px}
-/* CHAT bubbles (ajuste estilo WhatsApp real) */
-.bubble {
-  max-width: 72%;
-  padding: 12px 14px;
-  border-radius: 16px;
-  line-height: 1.4;
-  font-size: 15px;
-}
-.bot {
-  background:#ffffff;
-  border:1px solid #ddd;
-  color:#111;
-  align-self:flex-start;
-  margin-right:auto;
-  text-align:left;   /* 👈 texto pegado a la izquierda */
-}
 
-.user {
-  background:#dcf8c6;
-  border:1px solid #b2e59c;
-  color:#111;
-  align-self:flex-end;
-  margin-left:auto;
-  text-align:left;   /* 👈 texto a la izquierda, aunque esté a la derecha */
-}
+  /* Burbujas WhatsApp */
+  .bubble {
+    max-width: 72%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    line-height: 1.4;
+    font-size: 15px;
+  }
+  .bot {
+    background:#ffffff;
+    border:1px solid #ddd;
+    color:#111;
+    align-self:flex-start;
+    margin-right:auto;
+    text-align:left;
+  }
+  .user {
+    background:#dcf8c6;
+    border:1px solid #b2e59c;
+    color:#111;
+    align-self:flex-end;
+    margin-left:auto;
+    text-align:left;
+  }
+
   .row{display:flex; gap:10px; flex-wrap:wrap}
   .chip{border:1px solid #ccc; background:#fff; color:#111; padding:9px 14px; border-radius:999px; cursor:pointer; font-weight:700; font-size:14px}
   .chip:hover{border-color:#128c7e}
@@ -104,34 +105,33 @@
 </head>
 <body>
   <div class="frame">
-    
 
     <!-- HERO (arriba del paso 1) -->
     <section class="hero">
       <div class="badge">
         <img src="avatar.jpeg" alt="Avatar"/>
       </div>
-      <h1>Segui los siguientes pasos <br/>para crear tu cuenta</h1>
+      <h1>Seguí los siguientes pasos <br/>para crear tu cuenta</h1>
       <div class="sub">100% en tu primera carga!!</div>
     </section>
 
-<!-- STEP 1: Usuario -->
-<section id="step1" class="card">
-  <!-- LOGO dentro del card, como bordecito -->
-  <div class="logo" style="justify-content:center; margin-bottom:16px;">
-    <span class="trident">♆</span>
-    <div class="brand">CASINO<span style="color:var(--accent)">ZEUS</span></div>
-  </div>
+    <!-- STEP 1: Usuario -->
+    <section id="step1" class="card">
+      <!-- Logo como “bordecito” del paso -->
+      <div class="logo" style="justify-content:center; margin-bottom:16px;">
+        <span class="trident">♆</span>
+        <div class="brand">CASINO<span style="color:var(--accent)">ZEUS</span></div>
+      </div>
 
-  <h2>Ingresá tu nombre para continuar</h2>
-  <div class="field">
-    <label for="username">Nombre</label>
-    <input id="username" class="input" type="text" placeholder="Ej: leonel" autocomplete="username" />
-  </div>
-  <div class="center">
-    <button id="goChat" class="btn" disabled>RECLAMÁ TU BONO</button>
-  </div>
-</section>
+      <h2>Ingresá tu nombre para continuar</h2>
+      <div class="field">
+        <label for="username">Nombre</label>
+        <input id="username" class="input" type="text" placeholder="Ej: leonel" autocomplete="username" />
+      </div>
+      <div class="center">
+        <button id="goChat" class="btn" disabled>RECLAMÁ TU BONO</button>
+      </div>
+    </section>
 
     <!-- STEP 2: Chat -->
     <section id="step2" class="chat">
@@ -176,6 +176,14 @@ function appendBubble(text, who='bot'){
   chatEl.scrollTop = chatEl.scrollHeight;
   return wrap;
 }
+function appendBubbleHTML(html, who='bot'){
+  const wrap = document.createElement('div');
+  wrap.className = `bubble ${who}`;
+  wrap.innerHTML = html;
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
+  return wrap;
+}
 function chip(label, onclick){
   const b = document.createElement('button');
   b.className='chip'; b.type='button'; b.textContent=label; b.addEventListener('click', onclick);
@@ -199,53 +207,51 @@ function whatsButton(username, estado){
   a.className='whats-btn'; a.target='_blank';
   const msg = encodeURIComponent(`Hola, soy ${username}. Estado: ${estado}.`);
   a.href = `https://wa.me/${WHATS_NUMBER}?text=${msg}`;
-  a.innerHTML = `<span class="whats-icon">💬</span> Continuar por WhatsApp y RECLAMA TU BONO`;
+  a.innerHTML = `<span class="whats-icon">💬</span> Continuar por WhatsApp y RECLAMÁ TU BONO`;
   return a;
 }
 
-/* Primer mensaje: condiciones + ¿continuar? (solo Sí) */
+/* Primer mensaje dividido en 3: bienvenida → condiciones → desea continuar */
 function bootChat(username){
+  // 1) Bienvenida
   setTimeout(()=>{
-    const condiciones =
-      `Hola ${username}, soy Juan.\n`+
-      `**BONO DEL 100%**\n`+
-      `• **Carga mínima:** $2000\n`+
-      `• Retiros: (con CVU) de 10 a 16 hs. **¡sin límites!**\n`+
-      `• Atención las 24 horas\n\n`+
-      `¿Querés continuar?`;
-    // Usamos innerHTML para soportar <b>
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble bot';
-    bubble.innerHTML = condiciones.replace(/\*\*(.*?)\*\*/g,"<b>$1</b>");
-    chatEl.appendChild(bubble);
+    appendBubble(`Hola ${username}, soy Juan.`, 'bot');
 
-    chatEl.appendChild(chip('Sí', ()=> flujoSi(username)));
+    // 2) Condiciones (con negritas)
+    setTimeout(()=>{
+      const condicionesHTML =
+        `<b>BONO DEL 100%</b><br/>`+
+        `• <b>Carga mínima:</b> $2000<br/>`+
+        `• <b>Retiros:</b> (con CVU) de 10 a 16 hs. <b>¡sin límites!</b><br/>`+
+        `• Atención las 24 horas`;
+      appendBubbleHTML(condicionesHTML, 'bot');
+
+      // 3) ¿Deseás continuar?
+      setTimeout(()=>{
+        appendBubble('¿Deseás continuar?', 'bot');
+        chatEl.appendChild(chip('Sí', ()=> flujoSi(username)));
+      }, 300);
+
+    }, 300);
   }, 200);
 }
 
-/* Sí → CBU → ¿ya transferiste? → WhatsApp */
+/* Sí → CBU → instrucción de derivar a WhatsApp */
 function flujoSi(username){
   appendBubble('Sí', 'user');
-  setTimeout(()=>{
-    appendBubble('Perfecto. Copiá estos datos para cargar:', 'bot');
-    chatEl.appendChild(copyBox(NUMEROS_INFO));
-    setTimeout(()=>{
-      appendBubble('¿Ya transferiste?', 'bot');
-      const row = document.createElement('div'); row.className='row';
-      row.appendChild(chip('Sí, ya transferí', ()=> afterTransfer(username, 'Transferencia realizada')));
-      row.appendChild(chip('Todavía no', ()=> afterTransfer(username, 'Aún no transfirió')));
-      chatEl.appendChild(row);
-      chatEl.scrollTop = chatEl.scrollHeight;
-    }, 350);
-  }, 300);
-}
 
-function afterTransfer(username, estado){
   setTimeout(()=>{
-    appendBubble('Perfecto. Tocá el botón para continuar con un asesor y RECLAMAR TU BONO!', 'bot');
-    chatEl.appendChild(whatsButton(username, estado));
-    chatEl.scrollTop = chatEl.scrollHeight;
-  }, 200);
+    // CBU + Copiar
+    appendBubble('Perfecto. Copiá estos datos para transferir:', 'bot');
+    chatEl.appendChild(copyBox(NUMEROS_INFO));
+
+    // Instrucción y derivación a WhatsApp
+    setTimeout(()=>{
+      appendBubble('Cuando copies estos datos y hayas hecho la transferencia, comunicate al siguiente link:', 'bot');
+      chatEl.appendChild(whatsButton(username, 'Listo para continuar'));
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }, 300);
+  }, 250);
 }
 </script>
 </body>
