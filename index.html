@@ -169,7 +169,7 @@ function whatsButton(username, estado){
   a.className='whats-btn'; a.target='_blank';
   const msg = encodeURIComponent(`Hola, soy ${username}. Estado: ${estado}.`);
   a.href = `https://wa.me/${WHATS_NUMBER}?text=${msg}`;
-  a.innerHTML = `<span class="whats-icon">💬</span> Continuar por WhatsApp`;
+  a.innerHTML = `<span class="whats-icon">💬</span> Continuar por WhatsApp y RECLAMA TU BONO`;
   return a;
 }
 
@@ -178,7 +178,7 @@ function bootChat(username){
   setTimeout(()=>{
     const condiciones =
       `Hola ${username}, soy Juan.\n`+
-      `Condiciones:\n`+
+      `BONO DEL 100%\n`+
       `• Carga mínima: $2000\n`+
       `• Retiros (con CVU) de 10 a 16 hs. ¡sin límites!\n`+
       `• Atención las 24 horas\n\n`+
