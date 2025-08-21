@@ -60,7 +60,7 @@
   .chat-wrap{background:#ece5dd; border:1px solid #ccc; border-radius:var(--radius); overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.25);}
   .chat-header{padding:12px 16px; background:#075E54; display:flex; align-items:center; gap:10px; color:#fff}
   .chat-title{font-weight:700}
-  .chat-body{height:56vh; min-height:420px; max-height:66vh; padding:16px; overflow:auto; display:flex; flex-direction:column; gap:10px; background:url('https://i.ibb.co/4fZ2XnQ/whatsapp-bg.png'); background-size:cover;}
+  .chat-body{height:56vh; min-height:420px; max-height:66vh; padding:16px; overflow:auto; display:flex; flex-direction:column; gap:10px; background:#ece5dd;}
   .bubble{max-width:75%; padding:10px 14px; border-radius:16px; line-height:1.4; font-size:15px}
   .bot{align-self:flex-start; background:#fff; color:#111; border-radius:0 16px 16px 16px}
   .user{align-self:flex-end; background:#DCF8C6; color:#111; border-radius:16px 0 16px 16px}
@@ -80,9 +80,9 @@
     <!-- HERO -->
     <section class="hero">
       <div class="badge">
-        <img src="https://picsum.photos/200/200?random=7" alt="Buffalo Royals"/>
+        <img src="avatar.jpg" alt="Avatar"/>
       </div>
-      <h1>Seguí estos pasos<br/>para crear tu cuenta y cargar</h1>
+      <h1>Envíanos un WhatsApp<br/>para crear tu cuenta</h1>
       <div class="sub">100% en tu primera carga!!</div>
     </section>
 
@@ -163,10 +163,14 @@ function copyBox(text){
   box.append(code, btn);
   return box;
 }
-function whatsButton(username){
+function whatsButton(username, estado){
   const a = document.createElement('a');
   a.className='whats-btn'; a.target='_blank';
-  const msg = encodeURIComponent(`Hola, soy ${username}. Ya tengo el CBU.`);
+  const msg = encodeURIComponent(`Hola, soy ${username}. Estado: ${estado}.`);
+  a.href = `https://wa.me/${WHATS_NUMBER}?text=${msg}`;
+  a.innerHTML = `<span class="whats-icon">💬</span> Continuar por WhatsApp`;
+  return a;
+}. Ya tengo el CBU.`);
   a.href = `https://wa.me/${WHATS_NUMBER}?text=${msg}`;
   a.innerHTML = `<span class="whats-icon">💬</span> Continuar por WhatsApp`;
   return a;
@@ -174,7 +178,10 @@ function whatsButton(username){
 
 function bootChat(username){
   setTimeout(()=>{
-    appendBubble(`Hola ${username}, ¿querés empezar?`, 'bot');
+    appendBubble(`Hola ${username}, soy Juan. ¿Querés empezar?`, 'bot');
+    chatEl.appendChild(chip('Sí', ()=> flujoSi(username)));
+  }, 200);
+}, ¿querés empezar?`, 'bot');
     chatEl.appendChild(chip('Sí', ()=> flujoSi(username)));
   }, 200);
 }
@@ -185,10 +192,23 @@ function flujoSi(username){
     appendBubble('Perfecto. Copiá estos números para cargar:', 'bot');
     chatEl.appendChild(copyBox(NUMEROS_INFO));
     setTimeout(()=>{
-      appendBubble('Cuando estés listo, continuá con un asesor.', 'bot');
-      chatEl.appendChild(whatsButton(username));
-    }, 500);
+      appendBubble('¿Ya transferiste?', 'bot');
+      const row = document.createElement('div'); row.className='row';
+      row.appendChild(chip('Sí, ya transferí', ()=> afterTransfer(username, 'Transferencia realizada')));
+      row.appendChild(chip('Todavía no', ()=> afterTransfer(username, 'Aún no transfirió')));
+      chatEl.appendChild(row);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }, 350);
   }, 300);
+}, 500);
+  }, 300);
+}
+function afterTransfer(username, estado){
+  // mostrar botón a WhatsApp con estado
+  setTimeout(()=>{
+    chatEl.appendChild(whatsButton(username, estado));
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }, 200);
 }
 </script>
 </body>
